@@ -4,7 +4,7 @@ on: push
 jobs:
   build:
     name: Hello world action
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,8 +16,8 @@ jobs:
       - name: Compile with Maven
         run: mvn compile
       - name: Build Docker Image
-        run: docker build -t seMethodsimage .
+        run: docker build -t devopsimage .
       - name: Run image
-        run: docker run --name seMethodscontainer -d seMethodsimage
+        run: docker run --name devopscontainer -d devopsimage
       - name: view logs
-        run: docker logs seMethodscontainer
+        run: docker logs devopscontainer
