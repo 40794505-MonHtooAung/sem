@@ -24,7 +24,7 @@ jobs:
 
       - name: Run container
         run: |
-          docker run --name devopscontainer -d --network se-methods devopsimage
+          docker run --name devopscontainer -d -p --network se-methods devopsimage
           sleep 15  # Wait for app to start
 
       - name: View logs
