@@ -22,21 +22,25 @@ jobs:
       - name: Build Docker Image
         run: docker build -t devopsimage .
 
-      - name: Run container
+      - name: Create custom network
+        run: docker network create se-methods || true
+
+      - name: Run container with custom network
         run: |
-          docker run --name devopscontainer -d --network se-methods -d devopsimage
+          docker run --name devopscontainer --network se-methods -d devopsimage
           sleep 15  # Wait for app to start
 
       - name: View logs
         run: docker logs devopscontainer
 
-      - name: Test container
+      - name: Check network connectivity
         run: |
-          docker ps -a
-          docker inspect devopscontainer
+          docker network ls
+          docker inspect devopscontainer | grep -A 10 "NetworkSettings"
 
       - name: Cleanup
         if: always()
         run: |
           docker stop devopscontainer || true
           docker rm devopscontainer || true
+          docker network rm se-methods || true
